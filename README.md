@@ -22,7 +22,9 @@
 > see: [ROADMAP.md](ROADMAP.md)
 
 ## Changelogs
-- **[1.5.6]**
+- **[new]**
+  + fix in ListView header not load img
+- [1.5.6]
   + Fix [#16](https://github.com/leecade/react-native-swiper/issues/16), [#36](https://github.com/leecade/react-native-swiper/issues/36), [#371](https://github.com/leecade/react-native-swiper/issues/371), [#410](https://github.com/leecade/react-native-swiper/issues/410), [#411](https://github.com/leecade/react-native-swiper/issues/411), [#422](https://github.com/leecade/react-native-swiper/issues/422), [#468](https://github.com/leecade/react-native-swiper/issues/468) Fix landscape orientation auto resize! (thanks [@ahmed3mar](https://github.com/ahmed3mar), [@timmywil](https://github.com/timmywil))
   + Add containerStyle prop to customize the view container.
   
