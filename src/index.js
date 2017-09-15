@@ -1,3 +1,10 @@
+/*
+* @Author: tamamadesu
+* @Date:   2017-09-15 16:31:25
+* @Last Modified by:   tamamadesu
+* @Last Modified time: 2017-09-15 16:33:06
+*/
+
 /**
  * react-native-swiper
  * @author leecade<leecade@163.com>
@@ -324,6 +331,7 @@ export default class extends Component {
     }
 
     this.updateIndex(e.nativeEvent.contentOffset, this.state.dir, () => {
+
       this.autoplay()
       this.loopJump()
 
@@ -358,9 +366,14 @@ export default class extends Component {
   updateIndex = (offset, dir, cb) => {
     const state = this.state
     let index = state.index
-    const diff = offset[dir] - this.internals.offset[dir]
     const step = dir === 'x' ? state.width : state.height
     let loopJump = false
+
+    let diff = 0;
+
+    if(typeof this.internals.offset !== 'undefined'){
+      diff = offset[dir] - this.internals.offset[dir]
+    }
 
     // Do nothing if offset no change.
     if (!diff) return
@@ -426,7 +439,8 @@ export default class extends Component {
     if (state.dir === 'y') y = diff * state.height
 
     if (Platform.OS !== 'ios') {
-      this.scrollView && this.scrollView[animated ? 'setPage' : 'setPageWithoutAnimation'](diff)
+      // this.scrollView && this.scrollView[animated ? 'setPage' : 'setPageWithoutAnimation'](diff)
+      this.scrollView && this.scrollView.scrollTo({ x, y, animated })
     } else {
       this.scrollView && this.scrollView.scrollTo({ x, y, animated })
     }
@@ -584,30 +598,18 @@ export default class extends Component {
   }
 
   renderScrollView = pages => {
-    if (Platform.OS === 'ios') {
-      return (
-        <ScrollView ref={this.refScrollView}
-          {...this.props}
-          {...this.scrollViewPropOverrides()}
-          contentContainerStyle={[styles.wrapperIOS, this.props.style]}
-          contentOffset={this.state.offset}
-          onScrollBeginDrag={this.onScrollBegin}
-          onMomentumScrollEnd={this.onScrollEnd}
-          onScrollEndDrag={this.onScrollEndDrag}>
-          {pages}
-        </ScrollView>
-       )
-    }
     return (
-      <ViewPagerAndroid ref={this.refScrollView}
+      <ScrollView ref={this.refScrollView}
         {...this.props}
-        initialPage={this.props.loop ? this.state.index + 1 : this.state.index}
-        onPageSelected={this.onScrollEnd}
-        key={pages.length}
-        style={[styles.wrapperAndroid, this.props.style]}>
+        {...this.scrollViewPropOverrides()}
+        contentContainerStyle={[styles.wrapperIOS, this.props.style]}
+        contentOffset={this.state.offset}
+        onScrollBeginDrag={this.onScrollBegin}
+        onMomentumScrollEnd={this.onScrollEnd}
+        onScrollEndDrag={this.onScrollEndDrag}>
         {pages}
-      </ViewPagerAndroid>
-    )
+      </ScrollView>
+     )
   }
 
   /**
